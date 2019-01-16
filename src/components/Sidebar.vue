@@ -1,8 +1,8 @@
 <template>
   <div id="sidebar">
-    <img id="logo" alt="logo" src="../assets/logo.png" width="60px" height="60px">
+    <img id="logo" alt="logo" src="../assets/fluffy-math.png" width="60px" height="60px">
     <div id="title">Fluffy Math</div>
-    <div id="description">生成你的四则运算题目</div>
+    <div id="sidebar-description">生成你的四则运算题目</div>
 
     <b-form id="choices" @submit="onSubmit" v-if="show">
       <b-form-group id="difficulty" label="题目难度" label-for="difficulty-choice">
@@ -37,8 +37,10 @@
 
     <div id="footer">
       <p>
-        Created with Vue, Bootstrap and
-        <i class="fa fa-heart" aria-hidden="true"></i>.
+        Created with Vue, Bootstrap and love <i class="fa fa-heart" aria-hidden="true"></i>.
+      </p>
+      <p>
+        Open source on <a href="https://github.com/spencerwooo/fluffy-math-spa"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a>.
       </p>
       <p>Copyright © 2019 Fluffy Math Team</p>
     </div>
@@ -81,11 +83,11 @@ export default {
       return Math.floor(Math.random() * 10);
     },
     getRandomOperator(type) {
-      let operators = []
-      if (type === 'caret') {
-        operators = [" + ", " - ", " * ", " ÷ ", " ^ "];
+      let operators = [];
+      if (type === "caret") {
+        operators = ["+", "-", "*", "÷", "^"];
       } else {
-        operators = [" + ", " - ", " * ", " ÷ ", " ** "];
+        operators = ["+", "-", "*", "÷", "**"];
       }
       let randomoperator = Math.random();
       if (randomoperator > 0.7) {
@@ -110,7 +112,8 @@ export default {
         bracketflag = 0;
         numflag = 0;
         block = 0;
-        // let i = 0
+        let end = 0;
+        let start = 0;
         let Plen = Math.floor(Math.random() * 10) + 1;
         let problem = this.getRandomNumber();
         while (Plen--) {
@@ -118,6 +121,17 @@ export default {
           tmp = this.getRandomOperator(powerType);
           problem = problem + tmp;
           if (tmp === "**" || tmp === "^") {
+            end = problem.length;
+            start = end - 2;
+            while (start) {
+              if (
+                (problem[start] >= "0" && problem[start] <= "9") ||
+                problem[start] === ")"
+              ) {
+                problem = problem.substring(0, start + 1) + problem[end - 1];
+                start--;
+              } else break;
+            }
             problem += this.getSmallRandomNumber();
           } else {
             if (Plen > 1) {
@@ -152,8 +166,12 @@ export default {
       evt.preventDefault();
       if (this.form.quantity > 20) {
         alert("Quantity is too large");
+        this.form.quantity = 15;
       } else {
-        this.form.problemSet = this.generateIntegerProblem(this.form.quantity, this.form.powerIndicator);
+        this.form.problemSet = this.generateIntegerProblem(
+          this.form.quantity,
+          this.form.powerIndicator
+        );
         this.$emit("passDataToApp", this.form);
       }
     }
@@ -163,7 +181,20 @@ export default {
 
 <style scoped>
 #sidebar {
-  background-color: #2176ff;
+  background: #2176ff;
+  background: -moz-linear-gradient(
+    45deg,
+    #3d28a8 24%,
+    #3d28a8 24%,
+    #2176ff 99%
+  );
+  background: -webkit-linear-gradient(
+    45deg,
+    #3d28a8 24%,
+    #3d28a8 24%,
+    #2176ff 99%
+  );
+  background: linear-gradient(45deg, #3d28a8 24%, #3d28a8 24%, #2176ff 99%);
   width: 24rem;
   position: fixed;
   z-index: 10;
@@ -173,13 +204,23 @@ export default {
   bottom: 0;
   text-align: center;
   padding: 2rem;
+  overflow: auto;
   -webkit-box-shadow: inset -7px 0 19px -7px rgba(0, 0, 0, 0.4);
   -moz-box-shadow: inset -7px 0 19px -7px rgba(0, 0, 0, 0.4);
   box-shadow: inset -7px 0 19px -7px rgba(0, 0, 0, 0.4);
 }
 
+a {
+  color: #FDCA40;
+}
+
+a:hover {
+  color: #FDCA40;
+  text-decoration-style: solid;
+}
+
 #logo {
-  margin-top: 1rem;
+  margin: 1rem 0;
 }
 
 #title {
@@ -191,7 +232,7 @@ export default {
   color: white;
 }
 
-#description {
+#sidebar-description {
   margin: 1rem 0;
   font-size: 18px;
   color: white;
@@ -217,6 +258,6 @@ export default {
   font-size: 12px;
   font-weight: 200;
   line-height: 0.5;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 </style>
