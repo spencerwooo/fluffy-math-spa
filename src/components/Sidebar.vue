@@ -118,22 +118,34 @@ export default {
         let problem = this.getRandomNumber();
         while (Plen--) {
           block = 0;
+          problem = problem + ' '
           tmp = this.getRandomOperator(powerType);
           problem = problem + tmp;
           if (tmp === "**" || tmp === "^") {
             end = problem.length;
-            start = end - 2;
+            start = end - 3;
             while (start) {
+               if (start === 1) {
+              problem = problem.substring(0, start) + ' '
+              problem = problem + tmp
+              break
+            }
               if (
                 (problem[start] >= "0" && problem[start] <= "9") ||
-                problem[start] === ")"
+                problem[start] === ")" || problem[start] === ' '
               ) {
-                problem = problem.substring(0, start + 1) + problem[end - 1];
+                if (problem[start] === ')') {
+                numflag++
+              }
+                problem = problem.substring(0, start + 2) + ' ';
+                problem = problem + tmp;
                 start--;
               } else break;
             }
+            problem = problem + ' '
             problem += this.getSmallRandomNumber();
           } else {
+            problem = problem + ' '
             if (Plen > 1) {
               if (Math.random() > 0.8) {
                 problem += "(";
