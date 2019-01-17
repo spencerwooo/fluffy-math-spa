@@ -102,7 +102,7 @@ export default {
         return operators[4];
       }
     },
-    generateIntegerProblem(problemNum, powerType) {
+    generateIntegerProblem(problemNum, powerType, difficulty) {
       let problemList = [];
       let bracketflag = 0; // 能不能加右括号
       let numflag = 0; // 缺少的右括号个数
@@ -114,7 +114,16 @@ export default {
         block = 0;
         let end = 0;
         let start = 0;
-        let Plen = Math.floor(Math.random() * 10) + 1;
+        let Plen = 0;
+        if(difficulty === 'easy'){
+          Plen = 1;
+        }
+        if(difficulty === 'hard'){
+          Plen = Math.floor(Math.random() * 4) + 1;
+        }
+        if(difficulty === 'hell'){
+          Plen = Math.floor(Math.random() * 5) + 4;
+        }
         let problem = this.getRandomNumber();
         while (Plen--) {
           block = 0;
@@ -182,7 +191,8 @@ export default {
       } else {
         this.form.problemSet = this.generateIntegerProblem(
           this.form.quantity,
-          this.form.powerIndicator
+          this.form.powerIndicator,
+          this.form.difficulty
         );
         this.$emit("passDataToApp", this.form);
       }
