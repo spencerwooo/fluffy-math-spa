@@ -1,10 +1,10 @@
-![](https://i.loli.net/2019/01/17/5c3f68bd2a8ee.png)
-
 <div align="center">
 
-<h1> Fluffy Math SPA </h1>
+<img src="https://i.loli.net/2019/01/18/5c40ad291fdec.png" width="60%">
 
-<p> 🌟 Web front-end for <a href="https://github.com/spencerwooo/fluffy-math">Fluffy Math</a>. </p>
+<h1><strong> Fluffy Math SPA </strong></h1>
+
+<p><strong> 🌟 Web front-end for <a href="https://github.com/spencerwooo/fluffy-math">Fluffy Math</a>. </strong></p>
 
 <h3>
 <a href="https://github.com/spencerwooo/fluffy-math">Core and CLI</a>
