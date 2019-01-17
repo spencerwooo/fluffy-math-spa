@@ -251,13 +251,11 @@ a:hover {
 }
 
 #footer {
-  position: fixed;
-  bottom: 0;
   text-align: left;
   color: white;
   font-size: 12px;
   font-weight: 200;
   line-height: 0.5;
-  margin-bottom: 1rem;
+  margin: 5rem 0 1rem 0;
 }
 </style>

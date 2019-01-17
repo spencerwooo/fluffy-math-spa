@@ -15,7 +15,7 @@
           <li v-for="problems in generatedProblems" :key="problems">{{ problems }}</li>
         </ul>
       </div>
-      <img id="corner-image" src="./assets/corner-image.jpg" alt="People doing math" width="25%">
+      <img id="corner-image" src="./assets/corner-image.jpg" alt="People doing math" width="15%">
     </div>
   </div>
 </template>
@@ -107,7 +107,7 @@ a {
 }
 #corner-image {
   position: fixed;
-  margin: 3rem;
+  margin: 2rem;
   bottom: 0;
   right: 0;
 }
