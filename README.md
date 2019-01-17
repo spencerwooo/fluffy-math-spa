@@ -33,17 +33,24 @@
 直接访问：<https://spencerwoo.com/fluffy-math-spa>
 
 ## 项目构建 Project setup
+
+### Install @vue/cli globally
+```bash
+yarn global add @vue/cli
 ```
+
+### Install dependencies
+```bash
 yarn install
 ```
 
 ### Compiles and hot-reloads for development
-```
+```bash
 yarn run serve
 ```
 
 ### Compiles and minifies for production
-```
+```bash
 yarn run build
 ```
 
