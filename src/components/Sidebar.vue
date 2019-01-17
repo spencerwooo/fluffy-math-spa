@@ -145,6 +145,7 @@ export default {
             problem = problem + ' '
             problem += this.getSmallRandomNumber();
           } else {
+            problem = problem + ' '
             if (Plen > 1) {
               if (Math.random() > 0.8) {
                 problem += "(";
@@ -153,7 +154,6 @@ export default {
                 block = 1;
               }
             }
-            problem = problem + ' '
             problem += this.getRandomNumber();
           }
           if (bracketflag) {
