@@ -15,7 +15,7 @@
           <li v-for="problems in generatedProblems" :key="problems">{{ problems }}</li>
         </ul>
       </div>
-      <img id="corner-image" src="./assets/corner-image.jpg" alt="People doing math" width="15%">
+      <img id="corner-image" src="./assets/pattern.png" alt="People doing math" width="300px">
     </div>
   </div>
 </template>
