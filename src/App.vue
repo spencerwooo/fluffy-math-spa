@@ -5,7 +5,10 @@
       <div id="title">Fluffy Math 出题优</div>
 
       <div id="description">
-        生成 <strong>{{ problem.difficulty }}</strong> 难度的，<strong>{{ problem.type }}</strong> 类型，共 {{ problem.quantity }} 道题目。
+        生成
+        <strong>{{ problem.difficulty }}</strong> 难度的，
+        <strong>{{ problem.type }}</strong>
+        类型，共 {{ problem.quantity }} 道题目。
         乘方用 {{ problem.powerIndicator }} 表示。
       </div>
 
@@ -21,10 +24,10 @@
 </template>
 
 <script>
-import Sidebar from "./components/Sidebar.vue";
+import Sidebar from './components/Sidebar.vue'
 
 export default {
-  name: "app",
+  name: 'app',
   components: {
     Sidebar
   },
@@ -32,38 +35,38 @@ export default {
     return {
       generating: true,
       problem: {
-        difficulty: "小学一年级难度",
+        difficulty: '小学一年级难度',
         quantity: 15,
-        type: "整数四则运算",
-        powerIndicator: "^",
+        type: '整数四则运算',
+        powerIndicator: '^',
         problemSet: []
       },
-      generatedProblems: ["1 + 1", "1 / 3 + 2 / 5"]
-    };
+      generatedProblems: ['1 + 1', '1 / 3 + 2 / 5']
+    }
   },
   methods: {
     onProblemSubmit(problem) {
-      this.generatedProblems = problem.problemSet;
+      this.generatedProblems = problem.problemSet
       let configMap = {
-        'easy': '小学一年级难度',
-        'hard': '小学二年级难度',
-        'hell': '小学三年级难度',
-        'integer': '整数四则运算',
-        'fractional': '分数四则运算',
-        'caret': '^',
-        'asterisk': '**'
-      };
-      this.problem.difficulty = configMap[problem.difficulty];
-      this.problem.type = configMap[problem.type];
-      this.problem.powerIndicator = configMap[problem.powerIndicator];
+        easy: '小学一年级难度',
+        hard: '小学二年级难度',
+        hell: '小学三年级难度',
+        integer: '整数四则运算',
+        fractional: '分数四则运算',
+        caret: '^',
+        asterisk: '**'
+      }
+      this.problem.difficulty = configMap[problem.difficulty]
+      this.problem.type = configMap[problem.type]
+      this.problem.powerIndicator = configMap[problem.powerIndicator]
     }
   }
-};
+}
 </script>
 
 <style>
 #app {
-  font-family: "Noto Sans SC", sans-serif;
+  font-family: 'Noto Sans SC', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin-left: 30rem;

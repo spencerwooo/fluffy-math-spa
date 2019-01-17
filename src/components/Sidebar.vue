@@ -53,235 +53,235 @@
 
 <script>
 export default {
-  name: "Sidebar",
+  name: 'Sidebar',
   data() {
     return {
       form: {
-        difficulty: "easy",
+        difficulty: 'easy',
         quantity: 15,
-        type: "integer",
-        powerIndicator: "caret",
+        type: 'integer',
+        powerIndicator: 'caret',
         problemSet: []
       },
       difficulties: [
-        { value: "easy", text: "小学一年级难度" },
-        { value: "hard", text: "小学二年级难度" },
-        { value: "hell", text: "小学三年级难度" }
+        { value: 'easy', text: '小学一年级难度' },
+        { value: 'hard', text: '小学二年级难度' },
+        { value: 'hell', text: '小学三年级难度' }
       ],
       types: [
-        { value: "integer", text: "整数四则运算" },
-        { value: "fractional", text: "分数四则运算" }
+        { value: 'integer', text: '整数四则运算' },
+        { value: 'fractional', text: '分数四则运算' }
       ],
       powers: [
-        { value: "caret", text: "^" },
-        { value: "asterisk", text: "**" }
+        { value: 'caret', text: '^' },
+        { value: 'asterisk', text: '**' }
       ],
       show: true
-    };
+    }
   },
   methods: {
     gcd(num1, num2) {
-      return num1 % num2 === 0 ? num2 : this.gcd(num2, num1 % num2);
+      return num1 % num2 === 0 ? num2 : this.gcd(num2, num1 % num2)
     },
     getRandomNumber() {
-      return Math.floor(Math.random() * 101);
+      return Math.floor(Math.random() * 101)
     },
     getSmallRandomNumber() {
-      return Math.floor(Math.random() * 10);
+      return Math.floor(Math.random() * 10)
     },
     getRandomFraction() {
-      let resultnum = "";
-      let numerator = Math.floor(Math.random() * 10 + 1);
-      let denominator = Math.floor(Math.random() * 10 + 1);
-      let maxgcd = this.gcd(numerator, denominator);
+      let resultnum = ''
+      let numerator = Math.floor(Math.random() * 10 + 1)
+      let denominator = Math.floor(Math.random() * 10 + 1)
+      let maxgcd = this.gcd(numerator, denominator)
       if (numerator < denominator) {
-        resultnum += numerator / maxgcd + "/" + denominator / maxgcd;
-        return resultnum;
+        resultnum += numerator / maxgcd + '/' + denominator / maxgcd
+        return resultnum
       }
       if (numerator >= denominator) {
-        resultnum += denominator / maxgcd + "/" + numerator / maxgcd;
-        return resultnum;
+        resultnum += denominator / maxgcd + '/' + numerator / maxgcd
+        return resultnum
       }
     },
     getRandomOperator(type) {
-      let operators = [];
-      if (type === "caret") {
-        operators = ["+", "-", "*", "÷", "^"];
+      let operators = []
+      if (type === 'caret') {
+        operators = ['+', '-', '*', '÷', '^']
       } else {
-        operators = ["+", "-", "*", "÷", "**"];
+        operators = ['+', '-', '*', '÷', '**']
       }
-      let randomoperator = Math.random();
+      let randomoperator = Math.random()
       if (randomoperator > 0.7) {
-        return operators[0];
+        return operators[0]
       } else if (randomoperator > 0.4) {
-        return operators[1];
+        return operators[1]
       } else if (randomoperator > 0.15) {
-        return operators[2];
+        return operators[2]
       } else if (randomoperator > 0.05) {
-        return operators[3];
+        return operators[3]
       } else {
-        return operators[4];
+        return operators[4]
       }
     },
-    getRandomFractionalOperator () {
+    getRandomFractionalOperator() {
       let operators = ['+', '-', '*', '÷']
       return operators[[Math.floor(Math.random() * operators.length)]]
     },
     generateIntegerProblem(problemNum, powerType, difficulty) {
-      let problemList = [];
-      let bracketflag = 0; // 能不能加右括号
-      let numflag = 0; // 缺少的右括号个数
-      let block = 0; // 避免（3）这种情况
-      let tmp = ""; // 存储运算符，进行运算类型判断，以约束运算数
+      let problemList = []
+      let bracketflag = 0 // 能不能加右括号
+      let numflag = 0 // 缺少的右括号个数
+      let block = 0 // 避免（3）这种情况
+      let tmp = '' // 存储运算符，进行运算类型判断，以约束运算数
       while (problemNum--) {
-        bracketflag = 0;
-        numflag = 0;
-        block = 0;
-        let end = 0;
-        let start = 0;
-        let Plen = 0;
-        if (difficulty === "easy") {
-          Plen = 1;
+        bracketflag = 0
+        numflag = 0
+        block = 0
+        let end = 0
+        let start = 0
+        let Plen = 0
+        if (difficulty === 'easy') {
+          Plen = 1
         }
-        if (difficulty === "hard") {
-          Plen = Math.floor(Math.random() * 4) + 1;
+        if (difficulty === 'hard') {
+          Plen = Math.floor(Math.random() * 4) + 1
         }
-        if (difficulty === "hell") {
-          Plen = Math.floor(Math.random() * 5) + 4;
+        if (difficulty === 'hell') {
+          Plen = Math.floor(Math.random() * 5) + 4
         }
-        let problem = this.getRandomNumber();
+        let problem = this.getRandomNumber()
         while (Plen--) {
-          block = 0;
-          problem = problem + " ";
-          tmp = this.getRandomOperator(powerType);
-          problem = problem + tmp;
-          if (tmp === "**" || tmp === "^") {
-            end = problem.length;
-            start = end - 3;
+          block = 0
+          problem = problem + ' '
+          tmp = this.getRandomOperator(powerType)
+          problem = problem + tmp
+          if (tmp === '**' || tmp === '^') {
+            end = problem.length
+            start = end - 3
             while (start) {
               if (start === 1) {
-                problem = problem.substring(0, start) + " ";
-                problem = problem + tmp;
-                break;
+                problem = problem.substring(0, start) + ' '
+                problem = problem + tmp
+                break
               }
               if (
-                (problem[start] >= "0" && problem[start] <= "9") ||
-                problem[start] === ")" ||
-                problem[start] === " "
+                (problem[start] >= '0' && problem[start] <= '9') ||
+                problem[start] === ')' ||
+                problem[start] === ' '
               ) {
-                if (problem[start] === ")") {
-                  numflag++;
+                if (problem[start] === ')') {
+                  numflag++
                 }
-                problem = problem.substring(0, start + 2) + " ";
-                problem = problem + tmp;
-                start--;
-              } else break;
+                problem = problem.substring(0, start + 2) + ' '
+                problem = problem + tmp
+                start--
+              } else break
             }
-            problem = problem + " ";
-            problem += this.getSmallRandomNumber();
+            problem = problem + ' '
+            problem += this.getSmallRandomNumber()
           } else {
-            problem = problem + " ";
+            problem = problem + ' '
             if (Plen > 1) {
               if (Math.random() > 0.8) {
-                problem += "(";
-                bracketflag = 1;
-                numflag++;
-                block = 1;
+                problem += '('
+                bracketflag = 1
+                numflag++
+                block = 1
               }
             }
-            problem += this.getRandomNumber();
+            problem += this.getRandomNumber()
           }
           if (bracketflag) {
             if (Math.random() > 0.7) {
               if (!block) {
-                problem += ")";
-                bracketflag = 0;
-                numflag -= 1;
+                problem += ')'
+                bracketflag = 0
+                numflag -= 1
               }
             }
           }
         }
         while (numflag > 0) {
-          problem += ")";
-          numflag--;
+          problem += ')'
+          numflag--
         }
-        problemList.push(problem);
+        problemList.push(problem)
       }
-      return problemList;
+      return problemList
     },
     generateFractionalProblem(problemNum, difficulty) {
-      let problemList = [];
-      let bracketflag = 0;
-      let numflag = 0;
-      let block = 0;
+      let problemList = []
+      let bracketflag = 0
+      let numflag = 0
+      let block = 0
       while (problemNum--) {
-        bracketflag = 0;
-        numflag = 0;
-        block = 0;
-        let Plen = 0;
-        if (difficulty === "easy") {
-          Plen = 1;
+        bracketflag = 0
+        numflag = 0
+        block = 0
+        let Plen = 0
+        if (difficulty === 'easy') {
+          Plen = 1
         }
-        if (difficulty === "hard") {
-          Plen = Math.floor(Math.random() * 4) + 1;
+        if (difficulty === 'hard') {
+          Plen = Math.floor(Math.random() * 4) + 1
         }
-        if (difficulty === "hell") {
-          Plen = Math.floor(Math.random() * 5) + 4;
+        if (difficulty === 'hell') {
+          Plen = Math.floor(Math.random() * 5) + 4
         }
-        let problem = this.getRandomFraction();
+        let problem = this.getRandomFraction()
         while (Plen--) {
-          block = 0;
-          problem = problem + this.getRandomFractionalOperator();
+          block = 0
+          problem = problem + this.getRandomFractionalOperator()
           if (Plen > 1) {
             if (Math.random() > 0.7) {
-              problem += "(";
-              bracketflag = 1;
-              numflag++;
-              block = 1;
+              problem += '('
+              bracketflag = 1
+              numflag++
+              block = 1
             }
           }
-          problem += this.getRandomFraction();
+          problem += this.getRandomFraction()
           if (bracketflag) {
             if (Math.random() > 0.7) {
               if (!block) {
-                problem += ")";
-                bracketflag = 0;
-                numflag -= 1;
+                problem += ')'
+                bracketflag = 0
+                numflag -= 1
               }
             }
           }
         }
         while (numflag > 0) {
-          problem += ")";
-          numflag--;
+          problem += ')'
+          numflag--
         }
-        problemList.push(problem);
+        problemList.push(problem)
       }
-      return problemList;
+      return problemList
     },
     onSubmit(evt) {
-      evt.preventDefault();
+      evt.preventDefault()
       if (this.form.quantity > 20) {
-        alert("Quantity is too large");
-        this.form.quantity = 15;
+        alert('Quantity is too large')
+        this.form.quantity = 15
       } else {
-        if (this.form.type === "integer") {
+        if (this.form.type === 'integer') {
           this.form.problemSet = this.generateIntegerProblem(
             this.form.quantity,
             this.form.powerIndicator,
             this.form.difficulty
-          );
+          )
         } else {
           this.form.problemSet = this.generateFractionalProblem(
             this.form.quantity,
             this.form.difficulty
-          );
+          )
         }
       }
-      this.$emit("passDataToApp", this.form);
+      this.$emit('passDataToApp', this.form)
     }
   }
-};
+}
 </script>
 
 <style scoped>
