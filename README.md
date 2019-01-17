@@ -32,7 +32,9 @@
 
 直接访问：<https://spencerwoo.com/fluffy-math-spa>
 
-## 项目构建 Project setup
+## 项目构建 
+
+> 🚀 Project setup.
 
 ### Install @vue/cli globally
 ```bash
