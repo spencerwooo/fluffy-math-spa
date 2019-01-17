@@ -37,10 +37,14 @@
 
     <div id="footer">
       <p>
-        Created with Vue, Bootstrap and love <i class="fa fa-heart" aria-hidden="true"></i>.
+        Created with Vue, Bootstrap and love
+        <i class="fa fa-heart" aria-hidden="true"></i>.
       </p>
       <p>
-        Open source on <a href="https://github.com/spencerwooo/fluffy-math-spa"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a>.
+        Open source on
+        <a href="https://github.com/spencerwooo/fluffy-math-spa">
+          <i class="fa fa-github" aria-hidden="true"></i> GitHub
+        </a>.
       </p>
       <p>Copyright © 2019 Fluffy Math Team</p>
     </div>
@@ -76,11 +80,28 @@ export default {
     };
   },
   methods: {
+    gcd(num1, num2) {
+      return num1 % num2 === 0 ? num2 : this.gcd(num2, num1 % num2);
+    },
     getRandomNumber() {
       return Math.floor(Math.random() * 101);
     },
     getSmallRandomNumber() {
       return Math.floor(Math.random() * 10);
+    },
+    getRandomFraction() {
+      let resultnum = "";
+      let numerator = Math.floor(Math.random() * 10 + 1);
+      let denominator = Math.floor(Math.random() * 10 + 1);
+      let maxgcd = this.gcd(numerator, denominator);
+      if (numerator < denominator) {
+        resultnum += numerator / maxgcd + "/" + denominator / maxgcd;
+        return resultnum;
+      }
+      if (numerator >= denominator) {
+        resultnum += denominator / maxgcd + "/" + numerator / maxgcd;
+        return resultnum;
+      }
     },
     getRandomOperator(type) {
       let operators = [];
@@ -102,6 +123,10 @@ export default {
         return operators[4];
       }
     },
+    getRandomFractionalOperator () {
+      let operators = ['+', '-', '*', '÷']
+      return operators[[Math.floor(Math.random() * operators.length)]]
+    },
     generateIntegerProblem(problemNum, powerType, difficulty) {
       let problemList = [];
       let bracketflag = 0; // 能不能加右括号
@@ -115,46 +140,47 @@ export default {
         let end = 0;
         let start = 0;
         let Plen = 0;
-        if(difficulty === 'easy'){
+        if (difficulty === "easy") {
           Plen = 1;
         }
-        if(difficulty === 'hard'){
+        if (difficulty === "hard") {
           Plen = Math.floor(Math.random() * 4) + 1;
         }
-        if(difficulty === 'hell'){
+        if (difficulty === "hell") {
           Plen = Math.floor(Math.random() * 5) + 4;
         }
         let problem = this.getRandomNumber();
         while (Plen--) {
           block = 0;
-          problem = problem + ' '
+          problem = problem + " ";
           tmp = this.getRandomOperator(powerType);
           problem = problem + tmp;
           if (tmp === "**" || tmp === "^") {
             end = problem.length;
             start = end - 3;
             while (start) {
-               if (start === 1) {
-              problem = problem.substring(0, start) + ' '
-              problem = problem + tmp
-              break
-            }
+              if (start === 1) {
+                problem = problem.substring(0, start) + " ";
+                problem = problem + tmp;
+                break;
+              }
               if (
                 (problem[start] >= "0" && problem[start] <= "9") ||
-                problem[start] === ")" || problem[start] === ' '
+                problem[start] === ")" ||
+                problem[start] === " "
               ) {
-                if (problem[start] === ')') {
-                numflag++
-              }
-                problem = problem.substring(0, start + 2) + ' ';
+                if (problem[start] === ")") {
+                  numflag++;
+                }
+                problem = problem.substring(0, start + 2) + " ";
                 problem = problem + tmp;
                 start--;
               } else break;
             }
-            problem = problem + ' '
+            problem = problem + " ";
             problem += this.getSmallRandomNumber();
           } else {
-            problem = problem + ' '
+            problem = problem + " ";
             if (Plen > 1) {
               if (Math.random() > 0.8) {
                 problem += "(";
@@ -183,19 +209,76 @@ export default {
       }
       return problemList;
     },
+    generateFractionalProblem(problemNum, difficulty) {
+      let problemList = [];
+      let bracketflag = 0;
+      let numflag = 0;
+      let block = 0;
+      while (problemNum--) {
+        bracketflag = 0;
+        numflag = 0;
+        block = 0;
+        let Plen = 0;
+        if (difficulty === "easy") {
+          Plen = 1;
+        }
+        if (difficulty === "hard") {
+          Plen = Math.floor(Math.random() * 4) + 1;
+        }
+        if (difficulty === "hell") {
+          Plen = Math.floor(Math.random() * 5) + 4;
+        }
+        let problem = this.getRandomFraction();
+        while (Plen--) {
+          block = 0;
+          problem = problem + this.getRandomFractionalOperator();
+          if (Plen > 1) {
+            if (Math.random() > 0.7) {
+              problem += "(";
+              bracketflag = 1;
+              numflag++;
+              block = 1;
+            }
+          }
+          problem += this.getRandomFraction();
+          if (bracketflag) {
+            if (Math.random() > 0.7) {
+              if (!block) {
+                problem += ")";
+                bracketflag = 0;
+                numflag -= 1;
+              }
+            }
+          }
+        }
+        while (numflag > 0) {
+          problem += ")";
+          numflag--;
+        }
+        problemList.push(problem);
+      }
+      return problemList;
+    },
     onSubmit(evt) {
       evt.preventDefault();
       if (this.form.quantity > 20) {
         alert("Quantity is too large");
         this.form.quantity = 15;
       } else {
-        this.form.problemSet = this.generateIntegerProblem(
-          this.form.quantity,
-          this.form.powerIndicator,
-          this.form.difficulty
-        );
-        this.$emit("passDataToApp", this.form);
+        if (this.form.type === "integer") {
+          this.form.problemSet = this.generateIntegerProblem(
+            this.form.quantity,
+            this.form.powerIndicator,
+            this.form.difficulty
+          );
+        } else {
+          this.form.problemSet = this.generateFractionalProblem(
+            this.form.quantity,
+            this.form.difficulty
+          );
+        }
       }
+      this.$emit("passDataToApp", this.form);
     }
   }
 };
@@ -233,11 +316,11 @@ export default {
 }
 
 a {
-  color: #FDCA40;
+  color: #fdca40;
 }
 
 a:hover {
-  color: #FDCA40;
+  color: #fdca40;
   text-decoration-style: solid;
 }
 
