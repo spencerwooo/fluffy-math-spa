@@ -261,7 +261,7 @@ export default {
     },
     onSubmit(evt) {
       evt.preventDefault()
-      if (this.form.quantity > 20) {
+      if (this.form.quantity > 1000) {
         alert('Quantity is too large')
         this.form.quantity = 15
       } else {
